@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Movement : MonoBehaviour
 {
@@ -171,4 +172,24 @@ public class Movement : MonoBehaviour
     bool GroundCheck() => Physics.CheckSphere(transform.position, .5f, groundCheck, QueryTriggerInteraction.Ignore);
     bool AbovedCheck() => Physics.Raycast(transform.position, transform.up, out RaycastHit hit, 2.2f, groundCheck);
 
+    //Inputs
+
+    public void Move_performed(InputAction.CallbackContext obj)
+    {
+        horizontal = obj.ReadValue<Vector2>().x;
+        vertical = obj.ReadValue<Vector2>().y;
+    }
+    public void Jump_performed(InputAction.CallbackContext obj)
+    {
+        if (obj.performed) JumpPerformed();
+    }
+    public void Run_performed(InputAction.CallbackContext obj)
+    {
+        if (obj.performed) RunPerformed();
+        if (obj.canceled) RunCancled();
+    }
+    public void Slide_Performed(InputAction.CallbackContext obj)
+    {
+        if (obj.performed) SlidePerformed();
+    }
 }
